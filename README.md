@@ -5,10 +5,15 @@ Machine learning technical assessment for TrueFoundry
 
 ## DEPENDENCIES
 NLTK
+
 Sklearn
+
 Python 3.6 or higher
+
 Fastapi
+
 Numpy
+
 Pandas
 
 # USAGE

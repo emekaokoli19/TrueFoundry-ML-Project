@@ -16,7 +16,7 @@ class Model:
         data_set = pd.read_csv('airline_sentiment_analysis.csv')
         data_set.loc[data_set['airline_sentiment'] == 'positive', 'airline_sentiment'] = 1  # vectorize sentiment column
         data_set.loc[data_set['airline_sentiment'] == 'negative', 'airline_sentiment'] = 0  # vectorize sentiment column
-        data_set['text'] = data_set['text'].apply(self.cleantext)
+        data_set['text'] = data_set['text'].apply(self.cleantext)  # clean the text
         text = data_set['text']
         sentiment = data_set['airline_sentiment']
         return text, sentiment
@@ -24,8 +24,9 @@ class Model:
     def train(self, test_size: float):
         df_x, df_y = self.read_data()
         vectorizer = CountVectorizer(stop_words='english')
-        encoded_df_x = vectorizer.fit_transform(df_x)
+        encoded_df_x = vectorizer.fit_transform(df_x)  # vectorize text
         acc = 0
+        # train model to have an accuracy greater than 90
         while acc < 90:
             x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(encoded_df_x, df_y, test_size=test_size)
             y_train = y_train.astype('int')
@@ -41,6 +42,7 @@ class Model:
             acc = 100 * (count / len(prediction))
         return acc, df_x, classifier
 
+    # function cleans text when called
     def cleantext(self, text) -> str:
         lemmatizer = WordNetLemmatizer()
         stemmer = PorterStemmer()
@@ -54,6 +56,7 @@ class Model:
         text = text.translate(str.maketrans('', '', string.punctuation))  # remove punctuations
         return text
 
+    # This function removes the emoji from text data set
     def remove_emojis(self, data):
         emoji = re.compile("["
                            u"\U0001F600-\U0001F64F"  # emoticons
